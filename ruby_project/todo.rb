@@ -78,7 +78,12 @@ if __FILE__ == $PROGRAM_NAME
         when "3"
           my_list.write_to_file(prompt('Name of file to write to?' ))
         when "4"
-          my_list.read_file(prompt('Name of file to load?' ))
+          begin
+            my_list.read_file(prompt('Name of file to load?' ))
+          rescue Errno::ENOENT
+                  puts 'File name not found, please verify your file name
+                  and path.'
+          end
         else
           puts "Not one of my options, try again."
       end
