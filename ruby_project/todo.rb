@@ -7,6 +7,8 @@ module Menu
     puts "What do you want to do with your Todo list?
      1) Add task
      2) Show tasks
+     3) Save to file
+     4) Load file
      Q) Quit"
   end
 
@@ -39,6 +41,13 @@ class List
     all_tasks
   end
 
+  def write_to_file(filename)
+    IO.write(filename, @all_tasks.map(&:to_s).join("\n"))
+  end
+
+  def read_file(filename)
+    IO.readlines(filename).each {|l| add(Task.new(l.chomp)) }
+  end
 end
 
 class Task
@@ -66,6 +75,10 @@ if __FILE__ == $PROGRAM_NAME
           my_list.add(Task.new(prompt('Task?')))
         when "2"
           puts my_list.show
+        when "3"
+          my_list.write_to_file(prompt('Name of file to write to?' ))
+        when "4"
+          my_list.read_file(prompt('Name of file to load?' ))
         else
           puts "Not one of my options, try again."
       end
