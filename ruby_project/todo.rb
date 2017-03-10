@@ -1,8 +1,29 @@
 # Ruby exercise project https://www.codecademy.com/final_project/ruby
 # Notes in file notes.md
 # Todo list to manipulate from the command line
-#
-#Classes
+# Modules
+module Menu
+  def menu
+    puts "What do you want to do with your Todo list?
+     1) Add task
+     2) Show tasks
+     Q) Quit"
+  end
+
+  def show
+    menu
+  end
+end
+
+module Promptable
+  def prompt(message = 'What would you like to do?', symbol = ':> ' )
+    print message
+    print symbol
+    gets.chomp
+  end
+end
+
+# Classes
 class List
   attr_reader :all_tasks
 
@@ -27,20 +48,28 @@ class Task
     @description = description
   end
 
+  def to_s
+    description
+  end
 end
 
-# actions
+# Actions
 # Program runner
 if __FILE__ == $PROGRAM_NAME
   my_list = List.new
-  puts "You have created a new list"
-  my_list.add(Task.new('Make Breakfast'))
-  puts 'You have added a task to the Todo list'
-  my_list.add(Task.new('Buy milk'))
-  puts 'You have added a task to the Todo list'
-  my_list.add(Task.new('Pick up dry cleaner'))
-  puts 'You have added a task to the Todo list'
-  puts my_list.show
+  include Menu
+  include Promptable
+  puts "Please choose from the following list"
+    until ['q'].include?(user_input = prompt(show).downcase)
+      case user_input
+        when "1"
+          my_list.add(Task.new(prompt('Task?')))
+        when "2"
+          puts my_list.show
+        else
+          puts "Not one of my options, try again."
+      end
+      prompt('Press enter to continue', '')
+    end
+    puts 'Outro - Thanks for using the menu system!'
 end
-
-
