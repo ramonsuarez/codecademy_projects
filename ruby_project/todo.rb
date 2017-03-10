@@ -7,8 +7,9 @@ module Menu
     puts "What do you want to do with your Todo list?
      1) Add task
      2) Show tasks
-     3) Save to file
-     4) Load file
+     3) Delete task
+     4) Save to file
+     5) Load file
      Q) Quit"
   end
 
@@ -38,7 +39,11 @@ class List
   end
 
   def show
-    all_tasks
+    all_tasks.map.with_index {|t, index| "#{index.next}) #{t}" }
+  end
+
+  def delete(task_number)
+    all_tasks.delete_at(task_number.to_i - 1)
   end
 
   def write_to_file(filename)
@@ -76,8 +81,11 @@ if __FILE__ == $PROGRAM_NAME
         when "2"
           puts my_list.show
         when "3"
-          my_list.write_to_file(prompt('Name of file to write to?' ))
+          puts my_list.show
+          my_list.delete(prompt("Which task do you want to delete?".to_i))
         when "4"
+          my_list.write_to_file(prompt('Name of file to write to?' ))
+        when "5"
           begin
             my_list.read_file(prompt('Name of file to load?' ))
           rescue Errno::ENOENT
