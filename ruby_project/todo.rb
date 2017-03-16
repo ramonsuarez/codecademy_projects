@@ -87,7 +87,9 @@ if __FILE__ == $PROGRAM_NAME
         when "2"
           puts my_list.show
         when "3"
-
+          puts my_list.show
+          my_lits.update(prompt("Which task do you want to update?").to_i, 
+              Task.new(prompt('Task Description?')))
         when "4"
           puts my_list.show
           my_list.delete(prompt("Which task do you want to delete?".to_i))
