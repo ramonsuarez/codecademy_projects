@@ -88,11 +88,12 @@ if __FILE__ == $PROGRAM_NAME
           puts my_list.show
         when "3"
           puts my_list.show
-          my_lits.update(prompt("Which task do you want to update?").to_i, 
+          my_list.update(prompt("Which task do you want to update?").to_i,
               Task.new(prompt('Task Description?')))
         when "4"
           puts my_list.show
           my_list.delete(prompt("Which task do you want to delete?".to_i))
+          puts my_list.show
         when "5"
           my_list.write_to_file(prompt('Name of file to write to?' ))
         when "6"
@@ -101,9 +102,8 @@ if __FILE__ == $PROGRAM_NAME
           rescue Errno::ENOENT
                   puts 'File name not found, please verify your file name
                   and path.'
-          when "7"
-
           end
+          when "7"
         else
           puts "Not one of my options, try again."
       end
