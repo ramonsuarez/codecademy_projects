@@ -41,7 +41,7 @@ class List
   end
 
   def show
-    all_tasks.map.with_index { |t, index| '#{index.next}) #{t}' }
+    all_tasks.map.with_index { |t, index| "#{index.next}) #{t.to_machine}" }
   end
 
   def update(task_number, task)
@@ -89,17 +89,17 @@ class Task
   end
 
   def toggle_status
-    @completed_status = !completed?
+    @status = !completed?
   end
 
   def to_machine
-    ' #{represent_status}:#{description}'
+    "#{represent_status}:#{description}"
   end
 
   private
 
   def represent_status
-    completed? ? '[X]' : '[ ]'
+    "#{completed? ? '[X]' : '[ ]'}"
   end
 end
 
