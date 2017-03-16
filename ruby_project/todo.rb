@@ -52,12 +52,21 @@ class List
     all_tasks.delete_at(task_number.to_i - 1)
   end
 
+  def toggle(task_number)
+	  all_tasks[task_number - 1].toggle_status
+	end
+
   def write_to_file(filename)
-    IO.write(filename, @all_tasks.map(&:to_s).join("\n"))
+    machinified = @all_tasks.map(&:to_machine).join("\n")
+    IO.write(filename, machinified)
   end
 
   def read_file(filename)
-    IO.readlines(filename).each {|l| add(Task.new(l.chomp)) }
+    IO.readlines(filename).each do |line|
+            status, *description = line.split(':')
+            status = status.include?('X')
+            add(Task.new(description.join(':').strip, status))
+          end
   end
 end
 
@@ -76,6 +85,20 @@ class Task
 
   def completed?
     status
+  end
+
+  def toggle_status
+    @completed_status = !completed?
+  end
+
+  private
+
+  def represent_status
+    if completed?
+      puts "[X]"
+    else
+      puts "[ ]"
+    end
   end
 end
 
@@ -110,6 +133,13 @@ if __FILE__ == $PROGRAM_NAME
                   and path.'
           end
           when "7"
+            puts my_list.show
+            my_list.toggle(prompt('Which would you like to toggle the
+            status for?').to_i)
+          else
+              puts 'Try again, I did not understand.'
+        end
+            prompt('Press enter to continue', '')
         else
           puts "Not one of my options, try again."
       end
