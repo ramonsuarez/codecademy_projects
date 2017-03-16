@@ -64,8 +64,9 @@ end
 class Task
   attr_reader :description
 
-  def initialize(description)
+  def initialize(description, status = false)
     @description = description
+    @status = status
   end
 
   def to_s
