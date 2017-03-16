@@ -66,7 +66,7 @@ class List
             status, *description = line.split(':')
             status = status.include?('X')
             add(Task.new(description.join(':').strip, status))
-          end
+      end
   end
 end
 
@@ -94,11 +94,7 @@ class Task
   private
 
   def represent_status
-    if completed?
-      puts "[X]"
-    else
-      puts "[ ]"
-    end
+    completed? ? '[X]' : '[ ]'
   end
 end
 
@@ -132,18 +128,14 @@ if __FILE__ == $PROGRAM_NAME
                   puts 'File name not found, please verify your file name
                   and path.'
           end
-          when "7"
-            puts my_list.show
-            my_list.toggle(prompt('Which would you like to toggle the
-            status for?').to_i)
-          else
-              puts 'Try again, I did not understand.'
-        end
-            prompt('Press enter to continue', '')
+        when "7"
+          puts my_list.show
+          my_list.toggle(prompt('Which would you like to toggle the
+          status for?').to_i)
         else
-          puts "Not one of my options, try again."
-      end
+          puts 'Try again, I did not understand.'
+        end
       prompt('Press enter to continue', '')
     end
-    puts 'Outro - Thanks for using the menu system!'
+  puts 'Outro - Thanks for using the menu system!'
 end
